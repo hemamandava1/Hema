@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Ensure the path to the CSS file is correct -->
+    <style>
+        /* Inline styles should be moved to your external CSS for production */
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .header {
+            background: #008037;
+            color: #fff;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        .main-content {
+            flex-grow: 1; /* Takes up the remaining space */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+        }
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            margin: 20px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* Rest of your styles... */
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to Our Online Grocery Store</h1>
+    </div>
+    <div class="main-content">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form action="/login" method="post" class="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+
+                <input type="submit" value="Login" class="btn">
+            </form>
+            <p>Don't have an account? <a href="/register" class="btn-link">Register here</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Ensure the path to the CSS file is correct -->
+    <style>
+        /* Inline styles for demonstration purposes */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f7f7f7;
+        }
+        .header {
+            background: #008037;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto; /* Center table */
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            background-color: #008037;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #006b2e;
+        }
+        .flashes {
+            text-align: center;
+            list-style-type: none;
+        }
+        .flashes li {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            margin: 5px auto;
+            display: inline-block;
+        }
+        .continue-shopping, .checkout {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .continue-shopping {
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .continue-shopping:hover {
+            background-color: #e2e2e2;
+        }
+        /* Add any additional specific styles you need here */
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to Our Online Grocery Store</h1>
+    </div>
+    <h1>Your Shopping Cart</h1>
+    {% if cart %}
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+            {% for item in cart %}
+            <tr>
+                <td>{{ item['name'] }}</td>
+                <td>${{ item['price'] }}</td>
+                <td>{{ item['quantity'] }}</td>
+                <td>${{ item['price'] * item['quantity'] }}</td>
+                <td>
+                    <a href="{{ url_for('remove_from_cart', product_id=item['product_id']) }}">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ url_for('show_products') }}" class="continue-shopping">Continue Shopping</a>
+        <a href="{{ url_for('checkout') }}" class="checkout"><button>Proceed to Checkout</button></a>
+    {% else %}
+        <p>Your cart is empty.</p>
+        <a href="{{ url_for('show_products') }}" class="continue-shopping">Continue Shopping</a>
+    {% endif %}
+    <!-- Flash messages display -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

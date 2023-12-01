@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Catalog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Additional styling for product cards */
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .product-info {
+            text-align: center;
+        }
+
+        .product-info h2,
+        .product-info p {
+            margin: 5px 0;
+        }
+
+        .actions {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .actions input[type='number'] {
+            width: 60%;
+            padding: 5px;
+            margin-right: 5%;
+            margin-bottom: 10px;
+        }
+
+        .actions button {
+            width: 35%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            background-color: #008037;
+            cursor: pointer;
+        }
+
+        .actions .add-to-wishlist {
+            background-color: #ff4081;
+            margin-top: 5px;
+        }
+
+        /* Ensure flash messages are visible */
+        .flash-message {
+            display: block;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .flash-message.success { background-color: #e7f4e4; }
+        .flash-message.error { background-color: #f4e4e4; }
+    </style>
+</head>
+<body>
+    <div class="header text-center">
+        {% if 'username' in session %}
+            <span>Welcome to Our Online Grocery Store</span>
+            <span>Logged in as {{ session['username'] }}</span>
+            <div>
+                <a href="{{ url_for('view_cart') }}">Cart</a> |
+                <a href="{{ url_for('wishlist') }}">Wishlist</a> |
+                <a href="{{ url_for('order_history') }}">Order History</a> |
+                <a href="{{ url_for('profile') }}">Profile</a> |
+                <a href="{{ url_for('logout') }}">Logout</a> 
+                
+            </div>
+        {% endif %}
+    </div>
+
+    <div id="flash-messages" class="text-center mt-20">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main>
+        <h1 class="text-center mt-20">Product Catalog</h1>
+        <div class="products text-center mt-20">
+            {% for product in products %}
+                <div class="product">
+                    <img src="{{ product['image_url'] }}" alt="{{ product['name'] }}">
+                    <div class="product-info">
+                        <h2>{{ product['name'] }}</h2>
+                        <p>{{ product['description'] }}</p>
+                        <p>Price: ${{ product['price'] }}</p>
+                    </div>
+                    <div class="actions">
+                        <form action="{{ url_for('add_to_cart', product_id=product['_id']) }}" method="post">
+                            <input type="number" name="quantity" value="1" min="1" class="quantity-input">
+                            <button type="submit" class="add-to-cart">Add to Cart</button>
+                        </form>
+                        <form action="{{ url_for('add_to_wishlist', product_id=product['_id']) }}" method="post">
+                            <button type="submit" class="add-to-wishlist">&#x2661; Wishlist</button>
+                        </form>
+                        
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer class="text-center mt-20">
+        <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+    </footer>
+
+
+    <!-- JavaScript to hide flash messages after a delay -->
+    <script>
+        // Hide flash messages after a delay
+        window.onload = function() {
+            setTimeout(function() {
+                var messages = document.getElementById('flash-messages');
+                if (messages) {
+                    messages.style.opacity = '0';
+                    setTimeout(function() { messages.style.display = 'none'; }, 500);
+                }
+            }, 3000);
+        };
+
+        // Wishlist function
+        function addToWishlist(productId) {
+            fetch('/add_to_wishlist/' + productId, { method: 'POST' })
+            .then(response => {
+                if(response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                console.log(data);
+                // Update your UI here to show the wishlist was updated
+                // For example, disable the wishlist button
+                document.querySelector(`button[data-product-id="${productId}"]`).disabled = true;
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+        }
+        
+    </script>
+</body>
+</html>

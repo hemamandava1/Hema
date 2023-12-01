@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+</head>
+<body>
+    <h1>Add Product</h1>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-messages">
+                {% for category, message in messages %}
+                    <div class="{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('add_product') }}" method="post">
+        <label>Name:</label>
+        <input type="text" name="name" required><br><br>
+
+        <label>Description:</label>
+        <textarea name="description" required></textarea><br><br>
+
+        <label>Price:</label>
+        <input type="number" name="price" required><br><br>
+
+        <label>Image URL:</label>
+        <input type="text" name="image_url"><br><br>
+
+        <input type="submit" value="Add Product">
+    </form>
+    <a href="{{ url_for('show_products') }}">Back to Products</a>
+</body>
+</html>

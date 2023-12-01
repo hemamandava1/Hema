@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Our Online Grocery Store</title>
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Ensure the path to the CSS file is correct -->
+    <style>
+        /* Additional inline styles to complement the external CSS */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .header {
+            background-color: #008037; /* Use your theme color */
+            color: white;
+            padding: 1em;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 2em auto;
+            padding: 2em;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 1em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 0.5em;
+        }
+        input[type="text"],
+        input[type="password"] {
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            padding: 0.5em;
+            background-color: #008037;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #006b2e;
+        }
+        .btn-link {
+            color: #008037;
+            text-align: center;
+            margin-top: 1em;
+        }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to Our Online Grocery Store</h1>
+    </div>
+    <div class="form-container">
+        <h2>Login</h2>
+        <form action="/login" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <input type="submit" value="Login" class="btn">
+        </form>
+        <a href="/register" class="btn-link">Don't have an account? Register here.</a>
+    </div>
+</body>
+</html>

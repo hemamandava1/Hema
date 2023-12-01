@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order History</title>
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Ensure the path to the CSS file is correct -->
+    <style>
+        /* Inline styles for demonstration purposes */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f7f7f7;
+        }
+        .header {
+            background: #008037; /* Header background color */
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        ul {
+            list-style-type: none; /* Remove default list styling */
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 80%; /* Adjust width as needed */
+        }
+        .back-home {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            text-align: center;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .back-home:hover {
+            background-color: #e2e2e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to Our Online Grocery Store</h1>
+    </div>
+    <h1>Your Order History</h1>
+    {% if orders %}
+        <ul>
+            {% for order in orders %}
+                <li>
+                    <strong>Order ID:</strong> {{ order['_id'] }}<br>
+                    <strong>Items:</strong> 
+                    <ul>
+                        {% for item in order['items'] %}
+                            <li>{{ item['name'] }} - Quantity: {{ item['quantity'] }}</li>
+                        {% endfor %}
+                    </ul>
+                    <strong>Status:</strong> {{ order['status'] }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+    <a href="{{ url_for('index') }}" class="back-home">Back to Home</a>
+</body>
+</html>
